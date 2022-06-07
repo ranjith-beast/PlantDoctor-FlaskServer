@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src='jquery.js'></script>
+	<style>
+		
+		#img{
+			position: fixed;
+			height: 200px;
+			width: 200px;
+			left: 479px;
+			top: 20px;
+			/* background-color: green; */
+			border-radius: 50%;
+		}
+		#snap{
+			background-color: gray;
+			border-radius: 50%;
+			height: 54px;
+			width: 54px;
+		}
+		#letsgo{
+			background-color: #7ad832;
+			position: fixed;
+			top: 65%;
+			left: 38%;
+			width: 97px;
+			height: 36px;
+			border: none;
+			color: white;
+			font-size: 18px;
+		}
+		#value{
+			height: 22px;
+			width: 216px;
+			border-radius: 20px;
+			padding: 9px;
+			border: 1px solid #ccc5c5;
+
+		}
+		p{
+			position: fixed;
+			top: 38%;
+			left: 35%;
+			color: white;
+			font-family: serif;
+			font-style: italic;
+		}
+		#text{
+			position: fixed;
+			top: 50%;
+			left: 35%;
+
+		}
+		.image-upload > input
+		{
+			display: none;
+		}
+
+		.image-upload img
+		{
+			width: 80px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	
+	<div >
+		<img id="img"src="C:\Users\Ash347\Downloads\1485404281800.jpg">
+	</div>
+	<p>TAKE SNAP AND LETS START</p>
+	<div id="text">
+		<input id ="value" type="text" name="name" placeholder="enter for finding plant" >
+		<form id="upload-file" method="post" enctype="multipart/form-data">
+		<div class="image-upload">
+			<label for="file-input">
+				<img src="C:\Users\Ash347\Downloads\camicon.png">
+			</label>
+
+			<input id="file-input" type="file" name="img" oninput="showpic(this)" accept="image/*" / >
+		</div>
+	</form>
+	</div>
+	<button id="letsgo">LETS GO!</button>
+	<div id="canvas">
+		<img id="pic" >
+		<button onclick="$('#canvas').hide();">Try Another!</button>
+		<button onclick="send()">Continue</button>
+	</div>
+	<style type="text/css">
+		#canvas{
+			position: relative;
+			top: 10px;
+			height: 600px;
+			width: 50%;
+			left: 25%;
+			background-color: black;
+			display: none;
+		}
+		#canvas button{
+			bottom: 30px;
+			position: relative;
+		}
+		#pic{
+			position: relative;
+		}
+	</style>
+</body>
+<script type="text/javascript">
+	function showpic(input){
+		$('#canvas').show();
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('#pic')
+				.attr('src', e.target.result);
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	function send() {
+		var form_data = new FormData();
+		var form_data = new FormData($('#upload-file')[0]);
+		$.ajax({
+			url: 'http://localhost:5000/' ,
+			type: "POST",
+			data: form_data,
+			contentType: false,
+        cache: false,
+        processData: false,
+        success: function(data) {
+            console.log(data);
+        }
+ });
+	}
+</script>
+</html>		
